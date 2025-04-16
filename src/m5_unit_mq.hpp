@@ -121,7 +121,7 @@ typedef enum {
 typedef enum {
   LED_WORK_STATUS_OFF = 0, /**< @brief 0: LED OFF (default on power-up) */
   LED_WORK_STATUS_ON = 1   /**< @brief 1: LED ON */
-} led_work_status_t;
+} led_status_t;
 
 /**
  * @brief Valid tags for MQ ADC value.
@@ -174,7 +174,7 @@ public:
    *
    * @return The current heating mode.
    */
-  uint8_t getHeatingMode(void);
+  heating_mode_t getHeatingMode(void);
 
   /**
    * @brief Sets the LED power state.
@@ -183,7 +183,7 @@ public:
    *
    * @param status The desired LED power state to be set.
    */
-  void setLEDPowerState(led_work_status_t status);
+  void setLEDState(led_status_t status);
 
   /**
    * @brief Gets the current LED power state.
@@ -192,7 +192,7 @@ public:
    *
    * @return The current LED power state.
    */
-  uint8_t getLEDPowerState(void);
+  led_status_t getLEDState(void);
 
   /**
    * @brief Sets the pulse level time.

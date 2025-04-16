@@ -1,13 +1,14 @@
 #include <M5Unified.h>
 #include "m5_unit_mq.hpp"
+#include "m5_unit_mq_case.hpp"
 
-M5UnitMQ unitMq;
+M5UnitMQ unitMQ;
 
 void setup() {
   M5.begin();
   Serial.begin(115200);
   delay(100);
-  while (!unitMq.begin(&Wire1, UNIT_MQ_BASE_ADDR, 21, 22, 100000)) {
+  while (!unitMQ.begin(&Wire1, UNIT_MQ_BASE_ADDR, 21, 22, 100000)) {
     Serial.printf("Module FAN Init faile\r\n");
     delay(500);
   } 
@@ -15,24 +16,39 @@ void setup() {
   M5.Display.fillScreen(BLACK);
   M5.Display.setTextScroll(true);
   M5.Display.printf("UNIT_MQ Test\n");
-  unitMq.setHeatingMode( HEART_MODE_CONTINUOUS);
+  unitMQ.setHeatingMode( HEART_MODE_CONTINUOUS);
   delay(10);
-  unitMq.setLEDPowerState(LED_WORK_STATUS_ON);
+  unitMQ.setLEDState(LED_WORK_STATUS_ON);
   delay(10);
 }
 
 void loop() {
   Serial.printf(".........................................\r\n");
-  Serial.printf("LEDPowerState %d \r\n",unitMq.getLEDPowerState());
-  Serial.printf("MQ12 ADC %d \r\n",unitMq.getMQADC12bit());
-  Serial.printf("NTC12 ADC %d \r\n",unitMq.getNTCADC12bit());
+  Serial.printf("LEDState %d \r\n",unitMQ.getLEDState());
+  Serial.printf("MQ12 ADC %d \r\n",unitMQ.getMQADC12bit());
+  Serial.printf("NTC12 ADC %d \r\n",unitMQ.getNTCADC12bit());
 
-  Serial.printf("ReferenceVoltage %d \r\n",unitMq.getReferenceVoltage());
-  Serial.printf("ChannelVoltage %d \r\n",unitMq.getMQChannelVoltage());
-  Serial.printf("NTChannelVoltage %d \r\n",unitMq.getNTCChannelVoltage());
+  Serial.printf("ReferenceVoltage %d \r\n",unitMQ.getReferenceVoltage());
+  Serial.printf("ChannelVoltage %d \r\n",unitMQ.getMQChannelVoltage());
+  Serial.printf("NTChannelVoltage %d \r\n",unitMQ.getNTCChannelVoltage());
 
-  M5.Display.printf("ReferenceVoltage %d \r\n",unitMq.getReferenceVoltage());
-  M5.Display.printf("ChannelVoltage %d \r\n",unitMq.getMQChannelVoltage());
-  M5.Display.printf("ReferenceVoltage %d \r\n",unitMq.getReferenceVoltage());
+  M5.Display.printf("ReferenceVoltage %d \r\n",unitMQ.getReferenceVoltage());
+  M5.Display.printf("ChannelVoltage %d \r\n",unitMQ.getMQChannelVoltage());
+  M5.Display.printf("ReferenceVoltage %d \r\n",unitMQ.getReferenceVoltage());
   delay(1000);
+
+  unit_mq_test_case_1(unitMQ); // 写入MQ工作状态，并读取校验
+  unit_mq_test_case_2(unitMQ); // 写入LED工作状态，并读取校验
+  unit_mq_test_case_3(unitMQ); // 设置高低引脚电平，并读取校验，示波器抓取测试
+  unit_mq_test_case_4(unitMQ); // 循环读取MQ的ADC（8bit 12bit）
+  unit_mq_test_case_5(unitMQ); // 循环读取Valid tags
+  unit_mq_test_case_6(unitMQ); // 循环读取NTC的ADC (8bit 12bit)
+  unit_mq_test_case_7(unitMQ); // 循环读取温度
+  unit_mq_test_case_8(unitMQ); // 循环读取内部参考电压
+  unit_mq_test_case_9(unitMQ); // 循环读取MQ Channel 电压
+  unit_mq_test_case_10(unitMQ); // 循环读取NTC Channel 电压
+  unit_mq_test_case_11(unitMQ); // 循环读取软件版本高
+  unit_mq_test_case_12(unitMQ); // I2C地址测试
+  unit_mq_test_case_13(unitMQ); // 压力测试
+
 }

@@ -92,24 +92,26 @@ void M5UnitMQ::setHeatingMode(heating_mode_t mode) {
   writeBytes(_addr, reg, (uint8_t *)&mode, 1);
   releaseMutex();
 }
-uint8_t M5UnitMQ::getHeatingMode(void) {
+
+heating_mode_t M5UnitMQ::getHeatingMode(void) {
   acquireMutex();
-  uint8_t tempValue = 0;
+  heating_mode_t tempValue;
   uint8_t reg = UNIT_MQ_CFG_REG_ADDR;
   readBytes(_addr, reg, (uint8_t *)&tempValue, 1);
   releaseMutex();
   return tempValue;
 }
 
-void M5UnitMQ::setLEDPowerState(led_work_status_t status) {
+void M5UnitMQ::setLEDState(led_status_t status) {
   acquireMutex();
   uint8_t reg = UNIT_MQ_LED_CFG_REG_ADDR;
   writeBytes(_addr, reg, (uint8_t *)&status, 1);
   releaseMutex();
 }
-uint8_t M5UnitMQ::getLEDPowerState(void) {
+
+led_status_t M5UnitMQ::getLEDState(void) {
   acquireMutex();
-  uint8_t tempValue = 0;
+  led_status_t tempValue;
   uint8_t reg = UNIT_MQ_LED_CFG_REG_ADDR;
   readBytes(_addr, reg, (uint8_t *)&tempValue, 1);
   releaseMutex();
@@ -125,6 +127,7 @@ void M5UnitMQ::setPulseLevelTime(uint8_t highLevelTime, uint8_t lowLevelTime) {
   writeBytes(_addr, reg, (uint8_t *)&tempValue, 2);
   releaseMutex();
 }
+
 void M5UnitMQ::getPulseLevelTime(uint8_t *highLevelTime,
                                  uint8_t *lowLevelTime) {
   acquireMutex();
