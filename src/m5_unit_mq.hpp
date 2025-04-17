@@ -268,11 +268,14 @@ public:
    *
    * @return The current temperature in degrees Celsius.
    */
-  uint16_t getTemperature(void);
+  void getTemperature(uint8_t *integerValue,uint8_t *decimalValue);
 
   uint16_t getReferenceVoltage(void);
+
   uint16_t getMQChannelVoltage(void);
+
   uint16_t getNTCChannelVoltage(void);
+
 
   /**
    * @brief Gets the firmware version number.

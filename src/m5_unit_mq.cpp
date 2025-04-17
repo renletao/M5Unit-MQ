@@ -184,13 +184,15 @@ uint16_t M5UnitMQ::getNTCADC12bit(void) {
   return tempValue;
 }
 
-uint16_t M5UnitMQ::getTemperature(void) {
+void M5UnitMQ::getTemperature(uint8_t *integerValue,uint8_t *decimalValue) {
   acquireMutex();
-  uint16_t tempValue = 0;
+  uint8_t tempValue[2] = {0};
   uint8_t reg = UNIT_MQ_INT_TEMP_VAL_REG_ADDR;
   readBytes(_addr, reg, (uint8_t *)&tempValue, 2);
+  *integerValue = tempValue[0];
+  *decimalValue = tempValue[1];
   releaseMutex();
-  return tempValue;
+  
 }
 
 uint16_t M5UnitMQ::getReferenceVoltage(void) {
