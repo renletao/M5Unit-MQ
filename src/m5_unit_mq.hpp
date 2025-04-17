@@ -87,9 +87,19 @@
  */
 #define UNIT_MQ_INT_TEMP_VAL_REG_ADDR (0x70)
 
-
+/**
+ * @brief Internal reference voltage register address.
+ */
 #define INTERNALT_REFERENCE_VOLTAGE_REG_ADDR (0x80)
+
+/**
+ * @brief MQ sensor channel voltage register address.
+ */
 #define MQ_CHANNEL_VOLTAGE_REG_ADDR (0x82)
+
+/**
+ * @brief NTC sensor channel voltage register address.
+ */
 #define NTC_CHANNEL_VOLTAGE_REG_ADDR (0x84)
 
 /**
@@ -101,6 +111,26 @@
  * @brief I2C address register address.
  */
 #define UNIT_MQ_I2C_ADDR_REG_ADDR (0xFF)
+
+/**
+ * @brief Reference resistance value (10KΩ) used in temperature calculation.
+ */
+#define RESISTANCE_REFERENCE (10000.0f)
+
+/**
+ * @brief Absolute temperature corresponding to 25°C (in Kelvin).
+ */
+#define ABSOLUTE_TEMP_AT_25C (273.15f + 25.0f)
+
+/**
+ * @brief B constant for the thermistor, used in temperature calculation.
+ */
+#define THERMISTOR_B_CONSTANT (3950.0f)
+
+/**
+ * @brief Constant for converting from Kelvin to Celsius (absolute zero).
+ */
+#define ABSOLUTE_ZERO_TEMP (273.15f)
 
 /**
  * @brief Enum for heart operation modes.
@@ -129,7 +159,8 @@ typedef enum {
  * This enum defines whether the MQ ADC value is valid or not.
  */
 typedef enum {
-  VALID_TAG_INVALID =0, /**< @brief Invalid value (0): The MQ ADC value is invalid. */
+  VALID_TAG_INVALID =
+      0, /**< @brief Invalid value (0): The MQ ADC value is invalid. */
   VALID_TAG_VALID = 1 /**< @brief Valid value (1): The MQ ADC value is valid. */
 } valid_tags_t;
 
@@ -262,20 +293,54 @@ public:
   uint16_t getNTCADC12bit(void);
 
   /**
-   * @brief Gets the current temperature.
+   * @brief Gets the NTC thermistor resistance.
    *
-   * This function retrieves the current temperature measured by the device.
+   * This function retrieves the resistance value of the NTC thermistor.
+   * The unit of the returned value is ohm.
    *
-   * @return The current temperature in degrees Celsius.
+   * @return The resistance of the NTC thermistor in ohm.
    */
-  void getTemperature(uint8_t *integerValue,uint8_t *decimalValue);
+  uint16_t getNTCResistance(void);
 
+  /**
+   * @brief Calculates the temperature from NTC resistance.
+   *
+   * This function calculates the temperature in degrees Celsius using the
+   * provided NTC thermistor resistance.
+   *
+   * @param ntcResistance The resistance of the NTC thermistor in ohm.
+   *
+   * @return The calculated temperature in degrees Celsius.
+   */
+  float getNTCTemperature(uint16_t ntcResistance);
+
+  /**
+   * @brief Gets the reference voltage.
+   *
+   * This function retrieves the reference voltage used internally by the
+   * device.
+   *
+   * @return The reference voltage in millivolts.
+   */
   uint16_t getReferenceVoltage(void);
 
+  /**
+   * @brief Gets the MQ channel voltage.
+   *
+   * This function retrieves the voltage measured on the MQ sensor channel.
+   *
+   * @return The MQ channel voltage in millivolts.
+   */
   uint16_t getMQChannelVoltage(void);
 
+  /**
+   * @brief Gets the NTC channel voltage.
+   *
+   * This function retrieves the voltage measured on the NTC sensor channel.
+   *
+   * @return The NTC channel voltage in millivolts.
+   */
   uint16_t getNTCChannelVoltage(void);
-
 
   /**
    * @brief Gets the firmware version number.

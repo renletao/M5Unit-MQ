@@ -16,26 +16,10 @@ void setup() {
   M5.Display.fillScreen(BLACK);
   M5.Display.setTextScroll(true);
   M5.Display.printf("UNIT_MQ Test\n");
-  unitMQ.setHeatingMode( HEART_MODE_CONTINUOUS);
-  // delay(10);
-  // unitMQ.setLEDState(LED_WORK_STATUS_ON);
-  // delay(10);
+  // unitMQ.setHeatingMode( HEART_MODE_CONTINUOUS);
 }
 
 void loop() {
-  // Serial.printf(".........................................\r\n");
-  // Serial.printf("LEDState %d \r\n",unitMQ.getLEDState());
-  // Serial.printf("MQ12 ADC %d \r\n",unitMQ.getMQADC12bit());
-  // Serial.printf("NTC12 ADC %d \r\n",unitMQ.getNTCADC12bit());
-
-  // Serial.printf("ReferenceVoltage %d \r\n",unitMQ.getReferenceVoltage());
-  // Serial.printf("ChannelVoltage %d \r\n",unitMQ.getMQChannelVoltage());
-  // Serial.printf("NTChannelVoltage %d \r\n",unitMQ.getNTCChannelVoltage());
-
-  // M5.Display.printf("ReferenceVoltage %d \r\n",unitMQ.getReferenceVoltage());
-  // M5.Display.printf("ChannelVoltage %d \r\n",unitMQ.getMQChannelVoltage());
-  // M5.Display.printf("NTChannelVoltage %d \r\n",unitMQ.getNTCChannelVoltage());
-  // delay(1000);
 
   // unit_mq_test_case_1(unitMQ); // 写入MQ工作状态，并读取校验
   // unit_mq_test_case_2(unitMQ); // 写入LED工作状态，并读取校验
@@ -43,12 +27,12 @@ void loop() {
   // unit_mq_test_case_4(unitMQ); // 循环读取MQ的ADC（8bit 12bit）
   // unit_mq_test_case_5(unitMQ); // 循环读取Valid tags
   // unit_mq_test_case_6(unitMQ); // 循环读取NTC的ADC (8bit 12bit)
-  unit_mq_test_case_7(unitMQ); // 循环读取温度
+  // unit_mq_test_case_7(unitMQ); // 循环读取NTC Resistance
   // unit_mq_test_case_8(unitMQ); // 循环读取内部参考电压
   // unit_mq_test_case_9(unitMQ); // 循环读取MQ Channel 电压
   // unit_mq_test_case_10(unitMQ); // 循环读取NTC Channel 电压
   // unit_mq_test_case_11(unitMQ); // 循环读取软件版本高
   // unit_mq_test_case_12(unitMQ); // I2C地址测试
-  // unit_mq_test_case_13(unitMQ); // 压力测试
+  unit_mq_test_case_13(unitMQ); // 压力测试
 
 }

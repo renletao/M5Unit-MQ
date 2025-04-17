@@ -35,9 +35,7 @@ void unit_mq_test_case_11(M5UnitMQ unitMQ);  // 循环读取软件版本高
 
 void unit_mq_test_case_12(M5UnitMQ unitMQ);  // I2C地址测试
 
-void unit_mq_test_case_13(M5UnitMQ unitMQ);  // 压力测试
-
-void unit_mq_test_case_14(M5UnitMQ unitMQ);  
+void unit_mq_test_case_13(M5UnitMQ unitMQ);  // 压力测试 
  
 
 #endif

@@ -5,6 +5,7 @@
  */
 
 #include "m5_unit_mq.hpp"
+#include "math.h"
 
 void M5UnitMQ::writeBytes(uint8_t addr, uint8_t reg, uint8_t *buffer,
                           uint8_t length) {
@@ -184,15 +185,24 @@ uint16_t M5UnitMQ::getNTCADC12bit(void) {
   return tempValue;
 }
 
-void M5UnitMQ::getTemperature(uint8_t *integerValue,uint8_t *decimalValue) {
+uint16_t M5UnitMQ::getNTCResistance(void) {
   acquireMutex();
   uint8_t tempValue[2] = {0};
   uint8_t reg = UNIT_MQ_INT_TEMP_VAL_REG_ADDR;
   readBytes(_addr, reg, (uint8_t *)&tempValue, 2);
-  *integerValue = tempValue[0];
-  *decimalValue = tempValue[1];
   releaseMutex();
-  
+  return (tempValue[0]<< 8) | tempValue[1];
+}
+
+float M5UnitMQ::getNTCTemperature(uint16_t ntcResistance) {
+  float Rt = (float)ntcResistance;
+  float tempValue = Rt / RESISTANCE_REFERENCE;
+  tempValue = log(tempValue);
+  tempValue /= THERMISTOR_B_CONSTANT;
+  tempValue += (1 / ABSOLUTE_TEMP_AT_25C);
+  tempValue = 1 / tempValue;
+  tempValue -= ABSOLUTE_ZERO_TEMP;
+  return tempValue;
 }
 
 uint16_t M5UnitMQ::getReferenceVoltage(void) {
