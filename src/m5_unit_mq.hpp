@@ -15,10 +15,10 @@
 // and receiving data prints Define the serial port you want to use, e.g.,
 // Serial1 or Serial2
 #if defined UNIT_MQ_DEBUG
-#define serialPrint(...) UNIT_MQ_DEBUG.print(__VA_ARGS__)
+#define serialPrint(...)   UNIT_MQ_DEBUG.print(__VA_ARGS__)
 #define serialPrintln(...) UNIT_MQ_DEBUG.println(__VA_ARGS__)
-#define serialPrintf(...) UNIT_MQ_DEBUG.printf(__VA_ARGS__)
-#define serialFlush() UNIT_MQ_DEBUG.flush()
+#define serialPrintf(...)  UNIT_MQ_DEBUG.printf(__VA_ARGS__)
+#define serialFlush()      UNIT_MQ_DEBUG.flush()
 #else
 #endif
 
@@ -48,14 +48,14 @@
 #define UNIT_MQ_LED_CFG_REG_ADDR (0x01)
 
 /**
- * @brief MQ heating high pluse configuration register address.
+ * @brief MQ heating high-level pulse configuration register address.
  */
-#define UNIT_MQ_HEATING_HIGH_PLUSE_CFG_REG_ADDR (0x10)
+#define UNIT_MQ_HEATING_HIGH_LEVEL_PULSE_CFG_REG_ADDR (0x10)
 
 /**
- * @brief MQ heating low pluse configuration register address.
+ * @brief MQ heating low-level pulse configuration register address.
  */
-#define UNIT_MQ_HEATING_LOW_PLUSE_CFG_REG_ADDR (0x11)
+#define UNIT_MQ_HEATING_LOW_LEVEL_PULSE_CFG_REG_ADDR (0x11)
 
 /**
  * @brief MQ 8-bit ADC register address.
@@ -83,24 +83,24 @@
 #define UNIT_MQ_INT_12B_ADC_REG_ADDR (0x60)
 
 /**
- * @brief Internal temperature value register address.
+ * @brief MQ NTC resistance value register address.
  */
-#define UNIT_MQ_INT_TEMP_VAL_REG_ADDR (0x70)
+#define UNIT_MQ_NTC_RESISTANCE_REG_ADDR (0x70)
 
 /**
  * @brief Internal reference voltage register address.
  */
-#define INTERNALT_REFERENCE_VOLTAGE_REG_ADDR (0x80)
+#define UNIT_MQ_INTERNAL_REFERENCE_VOLTAGE_REG_ADDR (0x80)
 
 /**
  * @brief MQ sensor channel voltage register address.
  */
-#define MQ_CHANNEL_VOLTAGE_REG_ADDR (0x82)
+#define UNIT_MQ_CHANNEL_VOLTAGE_REG_ADDR (0x82)
 
 /**
  * @brief NTC sensor channel voltage register address.
  */
-#define NTC_CHANNEL_VOLTAGE_REG_ADDR (0x84)
+#define UNIT_MQ_NTC_CHANNEL_VOLTAGE_REG_ADDR (0x84)
 
 /**
  * @brief Software version register address.
@@ -138,9 +138,9 @@
  * This enum defines different modes for heart operation.
  */
 typedef enum {
-  HEART_MODE_OFF = 0,        /**< @brief 0: OFF mode (default on power-up) */
-  HEART_MODE_CONTINUOUS = 1, /**< @brief 1: Continuous heating mode */
-  HEART_MODE_PIN_SWITCH = 2  /**< @brief 2: Pin level switch mode */
+    HEARTING_MODE_OFF        = 0,  // 0: OFF mode (default on power-up)
+    HEARTING_MODE_CONTINUOUS = 1,  // 1: Continuous heating mode
+    HEARTING_MODE_PIN_SWITCH = 2   // 2: Pin level switch mode
 } heating_mode_t;
 
 /**
@@ -149,8 +149,8 @@ typedef enum {
  * This enum defines the different work status of the LED.
  */
 typedef enum {
-  LED_WORK_STATUS_OFF = 0, /**< @brief 0: LED OFF (default on power-up) */
-  LED_WORK_STATUS_ON = 1   /**< @brief 1: LED ON */
+    LED_WORK_STATUS_OFF = 0,  // 0: LED OFF (default on power-up)
+    LED_WORK_STATUS_ON  = 1   // 1: LED ON
 } led_status_t;
 
 /**
@@ -159,287 +159,285 @@ typedef enum {
  * This enum defines whether the MQ ADC value is valid or not.
  */
 typedef enum {
-  VALID_TAG_INVALID =
-      0, /**< @brief Invalid value (0): The MQ ADC value is invalid. */
-  VALID_TAG_VALID = 1 /**< @brief Valid value (1): The MQ ADC value is valid. */
+    VALID_TAG_INVALID = 0,  // The ADC value is invalid.
+    VALID_TAG_VALID   = 1   // The ADC value is invalid.
 } valid_tags_t;
 
 class M5UnitMQ {
 public:
-  /**
-   * @brief Initializes the device with optional I2C settings.
-   *
-   * This function configures the I2C communication settings, allowing the user
-   * to specify custom SDA and SCL pins as well as the I2C speed. If no
-   * parameters are provided, default values are used. The device is initialized
-   * using the provided I2C settings, and it returns a success flag.
-   *
-   * @param wire   Pointer to the TwoWire object for I2C communication (default
-   * is &Wire).
-   * @param addr   The I2C address of the device (default is -1, meaning use the
-   * default address).
-   * @param sda    The SDA pin number (default is -1, meaning use the default
-   * SDA pin).
-   * @param scl    The SCL pin number (default is -1, meaning use the default
-   * SCL pin).
-   * @param speed  The I2C bus speed in Hz (default is 4000000L).
-   *
-   * @return True if initialization was successful, false otherwise.
-   */
-  bool begin(TwoWire *wire = &Wire, uint8_t addr = -1, uint8_t sda = -1,
-             uint8_t scl = -1, uint32_t speed = 4000000L);
+    /**
+     * @brief Initializes the device with optional I2C settings.
+     *
+     * This function configures the I2C communication settings, allowing the user
+     * to specify custom SDA and SCL pins as well as the I2C speed. If no
+     * parameters are provided, default values are used. The device is initialized
+     * using the provided I2C settings, and it returns a success flag.
+     *
+     * @param wire   Pointer to the TwoWire object for I2C communication (default
+     * is &Wire).
+     * @param addr   The I2C address of the device (default is -1, meaning use the
+     * default address).
+     * @param sda    The SDA pin number (default is -1, meaning use the default
+     * SDA pin).
+     * @param scl    The SCL pin number (default is -1, meaning use the default
+     * SCL pin).
+     * @param speed  The I2C bus speed in Hz (default is 4000000L).
+     *
+     * @return True if initialization was successful, false otherwise.
+     */
+    bool begin(TwoWire *wire = &Wire, uint8_t addr = -1, uint8_t sda = -1, uint8_t scl = -1, uint32_t speed = 4000000L);
 
-  /**
-   * @brief Sets the heating mode.
-   *
-   * This function sets the heating mode of the device.
-   *
-   * @param mode The desired heating mode to be set.
-   */
-  void setHeatingMode(heating_mode_t mode);
+    /**
+     * @brief Sets the heating mode.
+     *
+     * This function sets the heating mode of the device.
+     *
+     * @param mode The desired heating mode to be set.
+     */
+    void setHeatingMode(heating_mode_t mode);
 
-  /**
-   * @brief Gets the current heating mode.
-   *
-   * This function retrieves the current heating mode of the device.
-   *
-   * @return The current heating mode.
-   */
-  heating_mode_t getHeatingMode(void);
+    /**
+     * @brief Gets the current heating mode.
+     *
+     * This function retrieves the current heating mode of the device.
+     *
+     * @return The current heating mode.
+     */
+    heating_mode_t getHeatingMode(void);
 
-  /**
-   * @brief Sets the LED power state.
-   *
-   * This function sets the power state of the LED.
-   *
-   * @param status The desired LED power state to be set.
-   */
-  void setLEDState(led_status_t status);
+    /**
+     * @brief Sets the LED power state.
+     *
+     * This function sets the power state of the LED.
+     *
+     * @param status The desired LED power state to be set.
+     */
+    void setLEDState(led_status_t status);
 
-  /**
-   * @brief Gets the current LED power state.
-   *
-   * This function retrieves the current power state of the LED.
-   *
-   * @return The current LED power state.
-   */
-  led_status_t getLEDState(void);
+    /**
+     * @brief Gets the current LED power state.
+     *
+     * This function retrieves the current power state of the LED.
+     *
+     * @return The current LED power state.
+     */
+    led_status_t getLEDState(void);
 
-  /**
-   * @brief Sets the pulse level time.
-   *
-   * This function sets the high and low level pulse times for the device.
-   *
-   * @param highLevelTime The high level pulse time in milliseconds.
-   * @param lowLevelTime The low level pulse time in milliseconds.
-   */
-  void setPulseLevelTime(uint8_t highLevelTime, uint8_t lowLevelTime);
+    /**
+     * @brief Sets the pulse level time.
+     *
+     * This function sets the high and low level pulse times for the device.
+     *
+     * @param highLevelTime The high level pulse time in milliseconds.
+     * @param lowLevelTime The low level pulse time in milliseconds.
+     */
+    void setPulseLevelTime(uint8_t highLevelTime, uint8_t lowLevelTime);
 
-  /**
-   * @brief Gets the pulse level time.
-   *
-   * This function retrieves the high and low level pulse times for the device.
-   *
-   * @param highLevelTime Pointer to the variable where the high level time will
-   * be stored.
-   * @param lowLevelTime Pointer to the variable where the low level time will
-   * be stored.
-   */
-  void getPulseLevelTime(uint8_t *highLevelTime, uint8_t *lowLevelTime);
+    /**
+     * @brief Gets the pulse level time.
+     *
+     * This function retrieves the high and low level pulse times for the device.
+     *
+     * @param highLevelTime Pointer to the variable where the high level time will
+     * be stored.
+     * @param lowLevelTime Pointer to the variable where the low level time will
+     * be stored.
+     */
+    void getPulseLevelTime(uint8_t *highLevelTime, uint8_t *lowLevelTime);
 
-  /**
-   * @brief Gets the 8-bit ADC value from the MQ sensor.
-   *
-   * This function retrieves the 8-bit ADC value from the MQ sensor.
-   *
-   * @return The 8-bit ADC value from the MQ sensor.
-   */
-  uint8_t getMQADC8bit(void);
+    /**
+     * @brief Gets the 8-bit ADC value from the MQ sensor.
+     *
+     * This function retrieves the 8-bit ADC value from the MQ sensor.
+     *
+     * @return The 8-bit ADC value from the MQ sensor.
+     */
+    uint8_t getMQADC8bit(void);
 
-  /**
-   * @brief Gets the 16-bit ADC value from the MQ sensor.
-   *
-   * This function retrieves the 16-bit ADC value from the MQ sensor.
-   *
-   * @return The 16-bit ADC value from the MQ sensor.
-   */
-  uint16_t getMQADC12bit(void);
+    /**
+     * @brief Gets the 16-bit ADC value from the MQ sensor.
+     *
+     * This function retrieves the 16-bit ADC value from the MQ sensor.
+     *
+     * @return The 16-bit ADC value from the MQ sensor.
+     */
+    uint16_t getMQADC12bit(void);
 
-  /**
-   * @brief Retrieves the valid tags.
-   *
-   * This function returns the valid tags that are currently available.
-   *
-   * @return The valid tags as a valid_tags_t type.
-   */
-  valid_tags_t getValidTags(void);
+    /**
+     * @brief Retrieves the valid tags.
+     *
+     * This function returns the valid tags that are currently available.
+     *
+     * @return The valid tags as a valid_tags_t type.
+     */
+    valid_tags_t getValidTags(void);
 
-  /**
-   * @brief Gets the 8-bit ADC value from the NTC sensor.
-   *
-   * This function retrieves the 8-bit ADC value from the NTC sensor.
-   *
-   * @return The 8-bit ADC value from the NTC sensor.
-   */
-  uint8_t getNTCADC8bit(void);
+    /**
+     * @brief Gets the 8-bit ADC value from the NTC sensor.
+     *
+     * This function retrieves the 8-bit ADC value from the NTC sensor.
+     *
+     * @return The 8-bit ADC value from the NTC sensor.
+     */
+    uint8_t getNTCADC8bit(void);
 
-  /**
-   * @brief Gets the 16-bit ADC value from the NTC sensor.
-   *
-   * This function retrieves the 16-bit ADC value from the NTC sensor.
-   *
-   * @return The 16-bit ADC value from the NTC sensor.
-   */
-  uint16_t getNTCADC12bit(void);
+    /**
+     * @brief Gets the 16-bit ADC value from the NTC sensor.
+     *
+     * This function retrieves the 16-bit ADC value from the NTC sensor.
+     *
+     * @return The 16-bit ADC value from the NTC sensor.
+     */
+    uint16_t getNTCADC12bit(void);
 
-  /**
-   * @brief Gets the NTC thermistor resistance.
-   *
-   * This function retrieves the resistance value of the NTC thermistor.
-   * The unit of the returned value is ohm.
-   *
-   * @return The resistance of the NTC thermistor in ohm.
-   */
-  uint16_t getNTCResistance(void);
+    /**
+     * @brief Gets the NTC thermistor resistance.
+     *
+     * This function retrieves the resistance value of the NTC thermistor.
+     * The unit of the returned value is ohm.
+     *
+     * @return The resistance of the NTC thermistor in ohm.
+     */
+    uint16_t getNTCResistance(void);
 
-  /**
-   * @brief Calculates the temperature from NTC resistance.
-   *
-   * This function calculates the temperature in degrees Celsius using the
-   * provided NTC thermistor resistance.
-   *
-   * @param ntcResistance The resistance of the NTC thermistor in ohm.
-   *
-   * @return The calculated temperature in degrees Celsius.
-   */
-  float getNTCTemperature(uint16_t ntcResistance);
+    /**
+     * @brief Calculates the temperature from NTC resistance.
+     *
+     * This function calculates the temperature in degrees Celsius using the
+     * provided NTC thermistor resistance.
+     *
+     * @param ntcResistance The resistance of the NTC thermistor in ohm.
+     *
+     * @return The calculated temperature in degrees Celsius.
+     */
+    float getNTCTemperature(uint16_t ntcResistance);
 
-  /**
-   * @brief Gets the reference voltage.
-   *
-   * This function retrieves the reference voltage used internally by the
-   * device.
-   *
-   * @return The reference voltage in millivolts.
-   */
-  uint16_t getReferenceVoltage(void);
+    /**
+     * @brief Gets the reference voltage.
+     *
+     * This function retrieves the reference voltage used internally by the
+     * device.
+     *
+     * @return The reference voltage in millivolts.
+     */
+    uint16_t getReferenceVoltage(void);
 
-  /**
-   * @brief Gets the MQ channel voltage.
-   *
-   * This function retrieves the voltage measured on the MQ sensor channel.
-   *
-   * @return The MQ channel voltage in millivolts.
-   */
-  uint16_t getMQChannelVoltage(void);
+    /**
+     * @brief Gets the MQ channel voltage.
+     *
+     * This function retrieves the voltage measured on the MQ sensor channel.
+     *
+     * @return The MQ channel voltage in millivolts.
+     */
+    uint16_t getMQChannelVoltage(void);
 
-  /**
-   * @brief Gets the NTC channel voltage.
-   *
-   * This function retrieves the voltage measured on the NTC sensor channel.
-   *
-   * @return The NTC channel voltage in millivolts.
-   */
-  uint16_t getNTCChannelVoltage(void);
+    /**
+     * @brief Gets the NTC channel voltage.
+     *
+     * This function retrieves the voltage measured on the NTC sensor channel.
+     *
+     * @return The NTC channel voltage in millivolts.
+     */
+    uint16_t getNTCChannelVoltage(void);
 
-  /**
-   * @brief Gets the firmware version number.
-   *
-   * This function retrieves the current software version number of the device's
-   * firmware.
-   *
-   * Please note that this operation involves writing to the device's flash
-   * memory, which may take more than 20ms to complete.
-   *
-   * @return The current firmware version number.
-   */
-  uint8_t getFirmwareVersion(void);
+    /**
+     * @brief Gets the firmware version number.
+     *
+     * This function retrieves the current software version number of the device's
+     * firmware.
+     *
+     * Please note that this operation involves writing to the device's flash
+     * memory, which may take more than 20ms to complete.
+     *
+     * @return The current firmware version number.
+     */
+    uint8_t getFirmwareVersion(void);
 
-  /**
-   * @brief Sets the I2C device address.
-   *
-   * This function allows the user to set the I2C address for the device.
-   * It returns the newly set I2C address. The valid I2C address range is from
-   * 0x08 to 0x77. If the provided address is greater than the maximum (0x77),
-   * it will be set to 0x77. If the provided address is less than the minimum
-   * (0x08), it will be set to 0x08.
-   *
-   * Please note that this operation involves writing to the device's flash
-   * memory, which may take more than 20ms to complete.
-   *
-   * @param addr The new I2C address to be set for the device.
-   *                The address should be within the range 0x08 to 0x77.
-   *                If it is outside this range, the closest valid address will
-   * be used.
-   *
-   * @return The newly set I2C address.
-   */
-  uint8_t setI2CAddress(uint8_t addr);
+    /**
+     * @brief Sets the I2C device address.
+     *
+     * This function allows the user to set the I2C address for the device.
+     * It returns the newly set I2C address. The valid I2C address range is from
+     * 0x08 to 0x77. If the provided address is greater than the maximum (0x77),
+     * it will be set to 0x77. If the provided address is less than the minimum
+     * (0x08), it will be set to 0x08.
+     *
+     * Please note that this operation involves writing to the device's flash
+     * memory, which may take more than 20ms to complete.
+     *
+     * @param addr The new I2C address to be set for the device.
+     *                The address should be within the range 0x08 to 0x77.
+     *                If it is outside this range, the closest valid address will
+     * be used.
+     *
+     * @return The newly set I2C address.
+     */
+    uint8_t setI2CAddress(uint8_t addr);
 
-  /**
-   * @brief Gets the current I2C device address.
-   *
-   * This function retrieves the current I2C address of the device.
-   *
-   * @return The current I2C address of the device.
-   */
-  uint8_t getI2CAddress(void);
+    /**
+     * @brief Gets the current I2C device address.
+     *
+     * This function retrieves the current I2C address of the device.
+     *
+     * @return The current I2C address of the device.
+     */
+    uint8_t getI2CAddress(void);
 
 private:
-  TwoWire *_wire;
-  uint8_t _addr;
-  uint8_t _scl;
-  uint8_t _sda;
-  uint32_t _speed;
+    TwoWire *_wire;
+    uint8_t _addr;
+    uint8_t _scl;
+    uint8_t _sda;
+    uint32_t _speed;
 
-  // Mutex flag for indicating whether the mutex is locked.
-  bool mutexLocked = false; // Mutex semaphore.
+    // Mutex flag for indicating whether the mutex is locked.
+    bool isMutexLocked = false;  // Mutex semaphore.
 
-  /**
-   * @brief Writes multiple bytes to a specified register.
-   *
-   * This function writes a sequence of bytes from the provided buffer
-   * to the device located at the specified I2C address and register.
-   *
-   * @param addr   The I2C address of the device.
-   * @param reg    The register address where the data will be written.
-   * @param buffer A pointer to the data buffer that contains the bytes to be
-   * written.
-   * @param length The number of bytes to write from the buffer.
-   */
-  void writeBytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t length);
+    /**
+     * @brief Writes multiple bytes to a specified register.
+     *
+     * This function writes a sequence of bytes from the provided buffer
+     * to the device located at the specified I2C address and register.
+     *
+     * @param addr   The I2C address of the device.
+     * @param reg    The register address where the data will be written.
+     * @param buffer A pointer to the data buffer that contains the bytes to be
+     * written.
+     * @param length The number of bytes to write from the buffer.
+     */
+    void writeBytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t length);
 
-  /**
-   * @brief Reads multiple bytes from a specified register.
-   *
-   * This function reads a sequence of bytes from the device located at
-   * the specified I2C address and register into the provided buffer.
-   *
-   * @param addr   The I2C address of the device.
-   * @param reg    The register address from which the data will be read.
-   * @param buffer A pointer to the data buffer where the read bytes will be
-   * stored.
-   * @param length The number of bytes to read into the buffer.
-   */
-  void readBytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t length);
+    /**
+     * @brief Reads multiple bytes from a specified register.
+     *
+     * This function reads a sequence of bytes from the device located at
+     * the specified I2C address and register into the provided buffer.
+     *
+     * @param addr   The I2C address of the device.
+     * @param reg    The register address from which the data will be read.
+     * @param buffer A pointer to the data buffer where the read bytes will be
+     * stored.
+     * @param length The number of bytes to read into the buffer.
+     */
+    void readBytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t length);
 
-  /**
-   * @brief Acquires a mutex lock.
-   *
-   * This function attempts to acquire a mutex lock to ensure thread-safe access
-   * to shared resources. It should be paired with a corresponding call to
-   * releaseMutex() to prevent deadlocks.
-   */
-  void acquireMutex();
+    /**
+     * @brief Acquires a mutex lock.
+     *
+     * This function attempts to acquire a mutex lock to ensure thread-safe access
+     * to shared resources. It should be paired with a corresponding call to
+     * releaseMutex() to prevent deadlocks.
+     */
+    void acquireMutex();
 
-  /**
-   * @brief Releases a mutex lock.
-   *
-   * This function releases a previously acquired mutex lock, allowing other
-   * threads to access shared resources. It should only be called after
-   * successfully acquiring the mutex with acquireMutex().
-   */
-  void releaseMutex();
+    /**
+     * @brief Releases a mutex lock.
+     *
+     * This function releases a previously acquired mutex lock, allowing other
+     * threads to access shared resources. It should only be called after
+     * successfully acquiring the mutex with acquireMutex().
+     */
+    void releaseMutex();
 };
 
 #endif
