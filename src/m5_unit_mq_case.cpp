@@ -1,8 +1,8 @@
 #include "m5_unit_mq_case.hpp"
 #include <math.h>
 
-void unit_mq_test_case_1(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_1(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 1\r\n");
     heating_mode_t heading_mode = HEARTING_MODE_OFF;
     heating_mode_t readByte;
     while (1) {
@@ -14,8 +14,8 @@ void unit_mq_test_case_1(M5UnitMQ unitMQ)
                 delay(1000);
             }
         } else {
-            Serial.printf("Heating Mode: %d\r\n ", readByte);
-            // Serial.printf(".");
+            // Serial.printf("Heating Mode: %d\r\n ", readByte);
+            Serial.printf(".");
         }
         switch (heading_mode) {
             case HEARTING_MODE_OFF:
@@ -32,8 +32,8 @@ void unit_mq_test_case_1(M5UnitMQ unitMQ)
     }
 }
 
-void unit_mq_test_case_2(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_2(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 2\r\n");
     led_status_t led_status = LED_WORK_STATUS_OFF;
     led_status_t readByte;
     // unitMQ.setHeatingMode(HEARTING_MODE_OFF);
@@ -61,14 +61,14 @@ void unit_mq_test_case_2(M5UnitMQ unitMQ)
             default:
                 break;
         }
-        delay(50);
+        delay(5);
     }
 }
 
-void unit_mq_test_case_3(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_3(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 3\r\n");
     uint8_t writeByte[2][2] = {{30, 10}, {30, 5}};
-    uint8_t index           = 1;
+    uint8_t index           = 0;
     uint8_t readByte[2]     = {0};
     unitMQ.setHeatingMode(HEARTING_MODE_PIN_SWITCH);
     unitMQ.setLEDState(LED_WORK_STATUS_ON);
@@ -82,6 +82,7 @@ void unit_mq_test_case_3(M5UnitMQ unitMQ)
             }
         } else {
             Serial.printf("highLevelTime : %d  lowLevelTime : %d \r\n", readByte[0], readByte[1]);
+            // Serial.printf(".");
         }
         index = 1 - index;
         delay(5*60*1000);
@@ -89,16 +90,16 @@ void unit_mq_test_case_3(M5UnitMQ unitMQ)
     }
 }
 
-void unit_mq_test_case_4(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_4(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 4\r\n");
     while (1) {
         Serial.printf("MQ ADC 8bit  : %d \r\n", unitMQ.getMQADC8bit());
         Serial.printf("MQ ADC 12bit : %d \r\n", unitMQ.getMQADC12bit());
     }
 }
 
-void unit_mq_test_case_5(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_5(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 5\r\n");
     unitMQ.setHeatingMode(HEARTING_MODE_PIN_SWITCH);
     uint8_t readByte;
     while (1) {
@@ -112,16 +113,16 @@ void unit_mq_test_case_5(M5UnitMQ unitMQ)
     }
 }
 
-void unit_mq_test_case_6(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_6(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 6\r\n");
     while (1) {
         Serial.printf("NTC ADC 8bit  : %d \r\n", unitMQ.getNTCADC8bit());
         Serial.printf("NTC ADC 12bit : %d \r\n", unitMQ.getNTCADC12bit());
     }
 }
 
-void unit_mq_test_case_7(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_7(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 7\r\n");
     uint16_t ntcResistance = 0;
     float ntcTemperature   = 0;
     while (1) {
@@ -133,8 +134,8 @@ void unit_mq_test_case_7(M5UnitMQ unitMQ)
     }
 }
 
-void unit_mq_test_case_8(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_8(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 8\r\n");
     while (1) {
         Serial.printf("Reference Voltage: %d \r\n", unitMQ.getReferenceVoltage());
         Serial.printf("MQ ADC 12bit : %d \r\n", unitMQ.getMQADC12bit());
@@ -142,41 +143,42 @@ void unit_mq_test_case_8(M5UnitMQ unitMQ)
     }
 }
 
-void unit_mq_test_case_9(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_9(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 9\r\n");
     while (1) {
-        Serial.printf("MQ Channel Voltage : %d \r\n", unitMQ.getMQChannelVoltage());
+        Serial.printf("MQ Voltage : %d \r\n", unitMQ.getMQVoltage());
+        delay(100);
+    }
+}
+
+void unit_mq_test_case_10(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 10\r\n");
+    while (1) {
+        Serial.printf("NTC Voltage : %d \r\n", unitMQ.getNTCVoltage());
         delay(1);
     }
 }
 
-void unit_mq_test_case_10(M5UnitMQ unitMQ)
-{
-    while (1) {
-        Serial.printf("NTC Channel Voltage : %d \r\n", unitMQ.getNTCChannelVoltage());
-        delay(1);
-    }
-}
-
-void unit_mq_test_case_11(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_11(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 11\r\n");
     while (1) {
         Serial.printf("Firmware Version : %d\r\n", unitMQ.getFirmwareVersion());
         delay(1);
     }
 }
 
-void unit_mq_test_case_12(M5UnitMQ unitMQ)
-{
-    // unitMQ.setI2CAddress(0x1A);
+void unit_mq_test_case_12(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 12\r\n");
+    unitMQ.setI2CAddress(0x18);
+    delay(100);
     while (1) {
         Serial.printf("I2C Address : 0x%02X\r\n", unitMQ.getI2CAddress());
-        delay(1);
+        delay(10);
     }
 }
 
-void unit_mq_test_case_13(M5UnitMQ unitMQ)
-{
+void unit_mq_test_case_13(M5UnitMQ unitMQ) {
+    Serial.printf("Starting Test Case 13\r\n");
     heating_mode_t heading_mode = HEARTING_MODE_OFF;
     heating_mode_t readByte1;
     led_status_t led_status = LED_WORK_STATUS_OFF;
@@ -229,8 +231,8 @@ void unit_mq_test_case_13(M5UnitMQ unitMQ)
         unitMQ.getNTCADC12bit();
         unitMQ.getNTCResistance();
         unitMQ.getReferenceVoltage();
-        unitMQ.getMQChannelVoltage();
-        unitMQ.getNTCChannelVoltage();
+        unitMQ.getMQVoltage();
+        unitMQ.getNTCVoltage();
         unitMQ.getFirmwareVersion();
         unitMQ.getI2CAddress();
         // delay(3000);

@@ -4,5 +4,6 @@
         "limits": "cpp",
         "type_traits": "cpp",
         "cmath": "cpp"
-    }
+    },
+    "idf.port": "/dev/tty.usbserial-02A009CE"
 }

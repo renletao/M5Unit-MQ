@@ -18,6 +18,7 @@ void setup()
     M5.Display.setTextScroll(true);
     M5.Display.printf("UNIT_MQ Test\n");
     unitMQ.setHeatingMode(HEARTING_MODE_CONTINUOUS);
+
     unitMQ.setLEDState(LED_WORK_STATUS_ON);
 }
 
@@ -30,7 +31,7 @@ void loop()
     // unit_mq_test_case_5(unitMQ); // 循环读取Valid tags
     // unit_mq_test_case_6(unitMQ); // 循环读取NTC的ADC (8bit 12bit)
     // unit_mq_test_case_7(unitMQ); // 循环读取NTC Resistance
-    unit_mq_test_case_8(unitMQ);  // 循环读取内部参考电压
+    // unit_mq_test_case_8(unitMQ); // 循环读取内部参考电压
     // unit_mq_test_case_9(unitMQ); // 循环读取MQ Channel 电压
     // unit_mq_test_case_10(unitMQ); // 循环读取NTC Channel 电压
     // unit_mq_test_case_11(unitMQ); // 循环读取软件版本高

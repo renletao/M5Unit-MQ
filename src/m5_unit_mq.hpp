@@ -323,22 +323,24 @@ public:
     uint16_t getReferenceVoltage(void);
 
     /**
-     * @brief Gets the MQ channel voltage.
+     * @brief Get the calibrated voltage from the MQ sensor channel.
      *
-     * This function retrieves the voltage measured on the MQ sensor channel.
+     * Retrieves the calibrated voltage (in millivolts) from the MQ sensor ADC channel.
+     * This value reflects the actual sensor output after reference voltage compensation.
      *
-     * @return The MQ channel voltage in millivolts.
+     * @return Calibrated MQ sensor voltage in millivolts.
      */
-    uint16_t getMQChannelVoltage(void);
+    uint16_t getMQVoltage(void);
 
     /**
-     * @brief Gets the NTC channel voltage.
+     * @brief Get the calibrated voltage from the NTC sensor channel.
      *
-     * This function retrieves the voltage measured on the NTC sensor channel.
+     * Retrieves the calibrated voltage (in millivolts) from the NTC sensor ADC channel.
+     * This value reflects the actual sensor output after reference voltage compensation.
      *
-     * @return The NTC channel voltage in millivolts.
+     * @return Calibrated NTC sensor voltage in millivolts.
      */
-    uint16_t getNTCChannelVoltage(void);
+    uint16_t getNTCVoltage(void);
 
     /**
      * @brief Gets the firmware version number.

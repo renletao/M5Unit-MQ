@@ -235,7 +235,7 @@ uint16_t M5UnitMQ::getReferenceVoltage(void)
     return tempValue;
 }
 
-uint16_t M5UnitMQ::getMQChannelVoltage(void)
+uint16_t M5UnitMQ::getMQVoltage(void)
 {
     acquireMutex();
     uint16_t tempValue = 0;
@@ -244,7 +244,8 @@ uint16_t M5UnitMQ::getMQChannelVoltage(void)
     releaseMutex();
     return tempValue;
 }
-uint16_t M5UnitMQ::getNTCChannelVoltage(void)
+
+uint16_t M5UnitMQ::getNTCVoltage(void)
 {
     acquireMutex();
     uint16_t tempValue = 0;
